@@ -1,6 +1,7 @@
 import { AppProps } from "next/app";
 import { CartProvider } from "@/state/cartStore";
 import { SearchProvider } from "@/state/searchStore";
+import { Toaster } from "react-hot-toast";
 import Header from "@/components/Header";
 import "@/styles/globals.css";
 import Footer from "@/components/Footer";
@@ -13,6 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Header />
           <main className="flex-1">
             <Component {...pageProps} />
+            <Toaster position="top-right" />
           </main>
           <Footer />
         </div>

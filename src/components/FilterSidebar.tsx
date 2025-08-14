@@ -21,7 +21,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
   setBrand,
 }) => {
   return (
-    <div className="p-4 md:border-r border-sky-500 h-fit text-neutral-800 dark:text-neutral-200">
+    <div className="p-4 md:border-r border-sky-500 h-fit">
       <h2 className="text-lg font-semibold mb-4">Filters</h2>
       <div className="mb-4">
         <h3 className="font-medium">Categories</h3>

@@ -48,7 +48,7 @@ const Cart: React.FC = () => {
                   </button>
                   <button
                     onClick={() => removeItem(item.id)}
-                    className="ml-4 text-red-500"
+                    className="ml-4 text-red-500 cursor-pointer hover:ring-2 hover:ring-netural-600 transition-transform duration-300 p-2 hover:bg-neutral-300 hover:dark:bg-neutral-600 rounded text-shadow-xs"
                   >
                     Remove
                   </button>

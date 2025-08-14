@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Star } from "lucide-react";
 import { useCart } from "../state/cartStore";
+import toast from "react-hot-toast";
 
 interface ProductCardProps {
   id: string;
@@ -47,9 +48,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
         )}
       </Link>
       <button
-        onClick={() =>
-          handleAddToCart({ id, title, price, image, quantity: 1 })
-        }
+        onClick={() => {
+          handleAddToCart({ id, title, price, image, quantity: 1 });
+          toast.success(`${title} added to cart!`);
+        }}
         className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors text-shadow-md"
       >
         Add to Cart

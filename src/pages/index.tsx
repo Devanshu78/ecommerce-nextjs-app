@@ -103,7 +103,7 @@ const Home = () => {
             </div>
           </div>
         )}
-        <div className="hidden md:block">
+        <div className="hidden md:block text-neutral-700 dark:text-neutral-200 ">
           <FilterSidebar
             price={price}
             setPrice={setPrice}
