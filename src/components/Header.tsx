@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
-import { useCart } from "../state/cartStore";
-import { Product } from "../types/index";
-import { useSearch } from "../state/searchStore";
+import { useCart } from "@/state/cartStore";
+import { Product } from "@/types/index";
+import { useSearch } from "@/state/searchStore";
 
 const Header: React.FC = () => {
   const [theme, setTheme] = useState("light");

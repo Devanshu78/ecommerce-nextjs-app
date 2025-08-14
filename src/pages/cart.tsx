@@ -1,6 +1,6 @@
 import React from "react";
-import { useCart } from "../state/cartStore";
-import Cart from "../components/Cart";
+import { useCart } from "@/state/cartStore";
+import Cart from "@/components/Cart";
 
 const CartPage: React.FC = () => {
   const { cartItems } = useCart();

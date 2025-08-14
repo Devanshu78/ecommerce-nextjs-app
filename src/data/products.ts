@@ -60,3 +60,6 @@ export const products = [
     brand: "Noise",
   },
 ];
+
+export const rawCategories = ["Clothing", "Electronics", "Toys"];
+export const rawBrands = ["H&M", "Apple", "Samsung", "Noise", "FujiFilm"];

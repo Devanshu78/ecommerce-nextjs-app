@@ -1,9 +1,10 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Product } from "../../types";
+import { Product } from "@/types";
 import { useContext } from "react";
-import { CartContext } from "../../state/cartStore";
-import ProductLoader from "../../components/ProductLoader";
+import { CartContext } from "@/state/cartStore";
+import ProductLoader from "@/components/ProductLoader";
+import toast from "react-hot-toast";
 
 const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
@@ -73,7 +74,10 @@ const ProductDetail = () => {
             />
           </div>
           <button
-            onClick={handleAddToCart}
+            onClick={() => {
+              handleAddToCart();
+              toast.success(`${product.title} added to cart!`);
+            }}
             className="mt-4 bg-blue-500 text-white py-2 px-4 rounded cursor-pointer hover:bg-blue-600 transition-colors"
           >
             Add to Cart

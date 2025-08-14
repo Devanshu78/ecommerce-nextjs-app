@@ -1,6 +1,5 @@
 import React from "react";
-import { useCart } from "../state/cartStore";
-import { LucideIcon } from "lucide-react";
+import { useCart } from "@/state/cartStore";
 
 const Cart: React.FC = () => {
   const { cartItems, updateQuantity, removeItem, totalAmount } = useCart();

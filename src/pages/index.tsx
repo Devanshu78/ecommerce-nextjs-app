@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import FilterSidebar from "../components/FilterSidebar";
-import ProductList from "../components/ProductList";
-import { Product } from "../types/index";
-import { useSearch } from "../state/searchStore";
+import FilterSidebar from "@/components/FilterSidebar";
+import ProductList from "@/components/ProductList";
+import { Product } from "@/types/index";
+import { useSearch } from "@/state/searchStore";
 import CardLoader from "@/components/CardLoader";
+import { rawCategories, rawBrands } from "@/data/products";
 
 const Home = () => {
   const [loding, setLoading] = useState(true);
@@ -13,6 +14,13 @@ const Home = () => {
   const [category, setCategory] = useState<string>("all");
   const [brand, setBrand] = useState<string>("all");
   const [openFilter, setOpenFilter] = useState(false);
+
+  const validCategories = rawCategories.map((c) => c.toLowerCase());
+  const validBrands = rawBrands.map((b) => b.toLowerCase());
+
+  // Normalize categories and brands for filtering
+  const productCategory = category.toLowerCase();
+  const productBrand = brand.toLowerCase();
 
   useEffect(() => {
     setLoading(true);
@@ -47,12 +55,16 @@ const Home = () => {
     const priceMatch = product.price <= price;
     const categoryMatch =
       category.toLowerCase() === "all" ||
-      (product.category &&
-        product.category.toLowerCase() === category.toLowerCase());
+      (category.toLowerCase() === "others"
+        ? !validCategories.includes(productCategory)
+        : productCategory === category.toLowerCase());
 
+    // Brand filter
     const brandMatch =
       brand.toLowerCase() === "all" ||
-      (product.brand && product.brand.toLowerCase() === brand.toLowerCase());
+      (brand.toLowerCase() === "others"
+        ? !validBrands.includes(productBrand)
+        : productBrand === brand.toLowerCase());
     const searchMatch =
       !searchQuery ||
       (product.title &&
@@ -124,7 +136,9 @@ const Home = () => {
             <div>
               {products?.length === 0 ? (
                 <div className="flex items-center justify-center h-full">
-                  <h1 className="text-2xl font-bold">No products found</h1>
+                  <h1 className="text-2xl font-bold text-neutral-600 dark:text-neutral-300">
+                    No products found
+                  </h1>
                 </div>
               ) : (
                 <div>

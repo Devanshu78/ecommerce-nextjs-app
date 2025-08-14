@@ -1,4 +1,5 @@
 import React from "react";
+import { rawCategories, rawBrands } from "@/data/products";
 
 interface FilterSidebarProps {
   price: number;
@@ -9,8 +10,8 @@ interface FilterSidebarProps {
   setBrand: (brand: string) => void;
 }
 
-const categories = ["All", "Clothing", "Electronics", "Toys"];
-const brands = ["All", "H&M", "Sony"];
+const categories = ["All", ...rawCategories, "Others"];
+const brands = ["All", ...rawBrands, "Others"];
 
 const FilterSidebar: React.FC<FilterSidebarProps> = ({
   price,

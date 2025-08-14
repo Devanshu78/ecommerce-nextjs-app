@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Star } from "lucide-react";
-import { useCart } from "../state/cartStore";
+import { useCart } from "@/state/cartStore";
 import toast from "react-hot-toast";
 
 interface ProductCardProps {

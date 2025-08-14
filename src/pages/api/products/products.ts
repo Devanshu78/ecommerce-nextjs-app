@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { products } from "../../../data/products";
+import { products, rawCategories, rawBrands } from "@/data/products";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   let filtered = products;
@@ -9,19 +9,33 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const categoryParam = category ? String(category).toLowerCase().trim() : null;
   const brandParam = brand ? String(brand).toLowerCase().trim() : null;
 
+  const normalizedCategories = rawCategories.map((c) => c.toLowerCase());
+  const normalizedBrands = rawBrands.map((b) => b.toLowerCase());
+
   if (price) {
     const maxPrice = Number(price);
     filtered = filtered.filter((p) => p.price <= maxPrice);
   }
-
   if (categoryParam && categoryParam !== "all") {
-    filtered = filtered.filter(
-      (p) => p.category.toLowerCase() === categoryParam
-    );
+    if (categoryParam === "others") {
+      filtered = filtered.filter(
+        (p) => !normalizedCategories.includes(p.category?.toLowerCase?.() || "")
+      );
+    } else {
+      filtered = filtered.filter(
+        (p) => p.category?.toLowerCase() === categoryParam
+      );
+    }
   }
 
   if (brandParam && brandParam !== "all") {
-    filtered = filtered.filter((p) => p.brand.toLowerCase() === brandParam);
+    if (brandParam === "others") {
+      filtered = filtered.filter(
+        (p) => !normalizedBrands.includes(p.brand?.toLowerCase?.() || "")
+      );
+    } else {
+      filtered = filtered.filter((p) => p.brand?.toLowerCase() === brandParam);
+    }
   }
 
   res.status(200).json(filtered);
