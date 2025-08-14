@@ -1,0 +1,33 @@
+# Node.js
+node_modules/
+.npm/
+.npm-cache/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+.build/
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm/
+
+# Production
+build/
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
+
+# Next.js
+.next/
+out/
+
