@@ -2,6 +2,8 @@
 
 This is a simple e-commerce application built with Next.js, TypeScript, and Tailwind CSS. The application features a product listing page, product detail pages, and a shopping cart.
 
+[Active Link](https://ecommerce-nextjs-app-eosin.vercel.app/)
+
 ## Features
 
 - **Home Page**: Displays a list of products with filtering options.
