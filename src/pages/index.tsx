@@ -127,7 +127,15 @@ const Home = () => {
                   <h1 className="text-2xl font-bold">No products found</h1>
                 </div>
               ) : (
-                <ProductList products={filteredProducts} />
+                <div>
+                  {filteredProducts.length === 0 ? (
+                    <div className="text-center text-gray-500 mt-10 text-lg">
+                      No products found matching your search or filters.
+                    </div>
+                  ) : (
+                    <ProductList products={filteredProducts} />
+                  )}
+                </div>
               )}
             </div>
           )}

@@ -1,5 +1,12 @@
-import React, { createContext, useContext, useReducer, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  ReactNode,
+  useEffect,
+} from "react";
 
+// Define cart item structure
 export interface CartItem {
   id: string;
   title: string;
@@ -8,19 +15,24 @@ export interface CartItem {
   quantity: number;
 }
 
+// Define cart state
 interface CartState {
   items: CartItem[];
 }
 
+// Define cart actions
 type CartAction =
   | { type: "ADD_ITEM"; payload: CartItem }
   | { type: "REMOVE_ITEM"; payload: string }
-  | { type: "UPDATE_QUANTITY"; payload: { id: string; quantity: number } };
+  | { type: "UPDATE_QUANTITY"; payload: { id: string; quantity: number } }
+  | { type: "INITIALIZE_CART"; payload: CartItem[] };
 
+// Initial state
 const initialState: CartState = {
   items: [],
 };
 
+// Create context
 export const CartContext = createContext<
   | {
       state: CartState;
@@ -29,8 +41,12 @@ export const CartContext = createContext<
   | undefined
 >(undefined);
 
+// Reducer function
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
+    case "INITIALIZE_CART":
+      return { ...state, items: action.payload };
+
     case "ADD_ITEM":
       const existingItem = state.items.find(
         (item) => item.id === action.payload.id
@@ -49,11 +65,13 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         ...state,
         items: [...state.items, action.payload],
       };
+
     case "REMOVE_ITEM":
       return {
         ...state,
         items: state.items.filter((item) => item.id !== action.payload),
       };
+
     case "UPDATE_QUANTITY":
       return {
         ...state,
@@ -63,13 +81,38 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
             : item
         ),
       };
+
     default:
       return state;
   }
 };
 
+// Provider Component
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
+
+  // Load from localStorage on first render
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedCart = localStorage.getItem("cartItems");
+      if (storedCart) {
+        try {
+          const parsedItems = JSON.parse(storedCart);
+          dispatch({ type: "INITIALIZE_CART", payload: parsedItems });
+        } catch (e) {
+          console.error("Error parsing localStorage cart:", e);
+        }
+      }
+    }
+  }, []);
+
+  // Save to localStorage on every change
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("cartItems", JSON.stringify(state.items));
+    }
+  }, [state.items]);
+
   return (
     <CartContext.Provider value={{ state, dispatch }}>
       {children}
@@ -77,19 +120,21 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// Custom Hook
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
     throw new Error("useCart must be used within a CartProvider");
   }
-  const { state, dispatch } = context;
 
-  // Helpers for Cart.tsx
+  const { state, dispatch } = context;
   const cartItems = state.items;
+
   const updateQuantity = (id: string, quantity: number) => {
     if (quantity < 1) return;
     dispatch({ type: "UPDATE_QUANTITY", payload: { id, quantity } });
   };
+
   const removeItem = (id: string) => {
     dispatch({ type: "REMOVE_ITEM", payload: id });
   };
